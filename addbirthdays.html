@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Birthday </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<!-- font awesome icon link -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+<!-- css stylesheet link -->
+<link rel="stylesheet" href="addbirthdays.css">
+</head>
+
+<body>
+    <h1>BIRTHDAY REMAINDER APP <i class="fa fa-birthday-cake"></i></h1>
+    <p style="text-align: center; font-size: 1.5rem; margin-top: 0;color:white;">Celebrate Every Special Birthday!</p>
+    <div class="birthday-container">
+        <div class="birthday-form">
+            <input type="text" id="name" placeholder="Enter Name">
+            <div class="error" id="nameError">This field is required.</div>
+
+            <input type="date" id="birthday">
+            <div class="error" id="birthdayError">This field is required.</div>
+
+            <button onclick="addBirthday()">Add Birthday</button>
+        </div>
+        <button onclick="goToBirthdayList()">View Birthdays</button>
+    </div>
+    <div id="successMessage"
+        style="display: none;width: 25%;margin-top: 10px; font-size: 1.2rem; color: rgb(1, 108, 1); background-color: white; padding: 10px; border-radius: 5px;text-align: center;">
+    </div>
+
+    <script src="addbirthdays.js"></script>
+</body>
+
+</html>

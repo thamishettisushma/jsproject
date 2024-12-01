@@ -1,0 +1,101 @@
+body {
+    font-family: Sour Gummy;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to right bottom, rgb(2, 102, 102), rgb(8, 184, 184));
+}
+
+.birthday-container {
+    border: 2px solid white;
+    background-color: aliceblue;
+    box-shadow: 3px 3px #D4AF37;
+    border-radius: 35px;
+    width: 100%;
+    max-width: 600px;
+    padding: 3%;
+    box-sizing: border-box;
+    text-align: center;
+    height: 58vh;
+}
+
+#name,
+#birthday {
+    font-family: Sour Gummy;
+    margin-bottom: 5%;
+    width: 80%;
+    padding: 3%;
+    border-radius: 20px;
+    font-size: 1.3rem;
+}
+
+h1 {
+    text-align: center;
+    /* margin-top: 4%; */
+    font-size: 3rem;
+    color: #D4AF37;
+}
+
+.error {
+    color: red;
+    font-size: 1rem;
+    margin-top: -4%;
+    margin-bottom: 4%;
+    margin-left: 8%;
+    text-align: left;
+    display: none;
+}
+
+button {
+    background-color: #D4AF37;
+    border: none;
+    color: black;
+    font-family: Sour Gummy;
+    width: 40%;
+    margin-bottom: 5%;
+    font-size: 1.2rem;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 25px;
+}
+
+button:hover {
+    background-color: #e8c860;
+}
+
+@media (max-width: 600px) {
+    body {
+        background-size: auto;
+        /* background-image: none; */
+        /* background-color: rgb(145, 236, 224); */
+    }
+
+    .birthday-container {
+        margin-top: 10%;
+        width: 80%;
+        padding: 10px;
+        height: 50vh;
+    }
+
+    button {
+        width: max-content;
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    #name,
+    #birthday {
+        font-size: 1rem;
+        padding: 2%;
+    }
+
+    .error {
+        font-size: 0.8rem;
+    }
+}
