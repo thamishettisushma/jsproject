@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Birthday</title>
+    <link rel="stylesheet" href="upcommingmessage.css"> 
+</head>
+<body>
+    <div class="header"><h1>NOTIFICATION</h1></div>
+    <div id="upcomingNotification" style="display: none;">
+        <p id="upcomingMessage"></p>
+        <p>"Happy Birthday! Remember, you're not getting older; you're just becoming a classic."</p>
+        <!-- <button onclick="clearNotification()">Close</button> -->
+        <button onclick="window.open('birthdays.html')">Close</button>
+    </div>
+
+    <script>
+        function loadNotification() {
+            const notificationData = localStorage.getItem('upcomingBirthday');
+            if (notificationData) {
+                const birthday = JSON.parse(notificationData);
+                const message = `Upcoming birthday: ${birthday.name} in ${birthday.days} day${birthday.days !== 1 ? 's' : ''} and ${birthday.hours} hour${birthday.hours !== 1 ? 's' : ''}`;
+                
+                const upcomingNotification = document.getElementById('upcomingNotification');
+                const upcomingMessage = document.getElementById('upcomingMessage');
+                
+                upcomingMessage.textContent = message;
+                upcomingNotification.style.display = 'block';
+            }
+        }
+
+        function clearNotification() {
+            localStorage.removeItem('upcomingBirthday');
+            document.getElementById('upcomingNotification').style.display = 'none';
+        }
+
+        // Load notification on page load
+        loadNotification();
+    </script>
+</body>
+</html>

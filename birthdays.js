@@ -1,3 +1,7 @@
+//----------------------------------------------------------second code countdown modified
+
+
+const notificationbutton=document.getElementById('notificationbutton')
 const birthdayList = document.getElementById('birthdayList');
 const upcomingNotification = document.getElementById('upcomingNotification');
 const upcomingMessage = document.getElementById('upcomingMessage');
@@ -9,53 +13,52 @@ function displayBirthdays() {
     let upcomingBirthday = false;
     let nearestBirthday = null;
 
-    birthdays.sort((a, b) => getDaysUntilBirthday(a.birthday) - getDaysUntilBirthday(b.birthday));
+    birthdays.sort((a, b) => getTimeUntilBirthday(a.birthday).totalMilliseconds - getTimeUntilBirthday(b.birthday).totalMilliseconds);
 
     birthdays.forEach((bday, index) => {
-        const daysUntil = getDaysUntilBirthday(bday.birthday);
+        const { months, days, hours, isWithinAWeek } = getTimeUntilBirthday(bday.birthday);
 
         // Create a Bootstrap card
         const card = document.createElement('div');
         card.className = 'col-12 col-md-6 col-lg-4 birthday-card';
 
         card.innerHTML = `
-                    <div class="card ${daysUntil <= 7 ? 'highlight' : ''}">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">${bday.name}</h5>
-                            <p class="card-text">${formatDate(bday.birthday)}</p>
-                            <p class="card-text">${daysUntil} day${daysUntil > 1 ? 's' : ''} left</p>
-                            <button class="btn  btn-sm me-2" onclick="startEdit(${index})" id="color">Edit</button>
-                            <button class="btn  btn-sm" onclick="removeBirthday(${index})" id="color">Remove</button>
-                        </div>
-                    </div>
-                `;
+            <div class="card ${isWithinAWeek ? 'highlight' : ''}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${bday.name}</h5>
+                    <p class="card-text">${formatDate(bday.birthday)}</p>
+                    <p class="card-text">${isWithinAWeek ? `${days} day${days !== 1 ? 's' : ''} and ${hours} hour${hours !== 1 ? 's' : ''} left` : `${months} month${months !== 1 ? 's' : ''}, ${days} day${days !== 1 ? 's' : ''}, and ${hours} hour${hours !== 1 ? 's' : ''} left`}</p>
+                    <button class="btn btn-sm me-2" onclick="startEdit(${index})" id="color">Edit</button>
+                    <button class="btn btn-sm" onclick="removeBirthday(${index})" id="color">Remove</button>
+                </div>
+            </div>
+        `;
 
         // Add edit form if this card is being edited
         if (editIndex === index) {
             const editForm = document.createElement('div');
             editForm.className = 'edit-form';
             editForm.innerHTML = `
-                        <form onsubmit="updateBirthday(event, ${index})">
-                            <div class="mb-3">
-                                <input type="text" class="form-control" id="editName" placeholder="Name" value="${bday.name}" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="date" class="form-control" id="editDate" value="${bday.birthday.substring(0, 10)}" required>
-                            </div>
-                            <button type="submit" class="btn  btn-sm" id="color">Save</button>
-                            <button type="button" class="btn  btn-sm" id="color" onclick="cancelEdit()">Cancel</button>
-                        </form>
-                    `;
+                <form onsubmit="updateBirthday(event, ${index})">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="editName" placeholder="Name" value="${bday.name}" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="date" class="form-control" id="editDate" value="${bday.birthday.substring(0, 10)}" required>
+                    </div>
+                    <button type="submit" class="btn btn-sm" id="color">Save</button>
+                    <button type="button" class="btn btn-sm" id="color" onclick="cancelEdit()">Cancel</button>
+                </form>
+            `;
             card.appendChild(editForm);
         }
 
         birthdayList.appendChild(card);
 
         // Check if the birthday is upcoming
-        if (daysUntil <= 7 && !upcomingBirthday) {
+        if (isWithinAWeek && !upcomingBirthday) {
             upcomingBirthday = true;
-            nearestBirthday = { name: bday.name, days: daysUntil };
-             
+            nearestBirthday = { name: bday.name, days, hours };
         }
     });
 
@@ -67,7 +70,7 @@ function displayBirthdays() {
     }
 }
 
-function getDaysUntilBirthday(date) {
+function getTimeUntilBirthday(date) {
     const today = new Date();
     const birthday = new Date(date);
     birthday.setFullYear(today.getFullYear());
@@ -76,8 +79,17 @@ function getDaysUntilBirthday(date) {
         birthday.setFullYear(today.getFullYear() + 1);
     }
 
-    const timeDiff = birthday - today;
-    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    const totalMilliseconds = birthday - today;
+    const totalHours = Math.floor(totalMilliseconds / (1000 * 60 * 60));
+    const totalDays = Math.floor(totalMilliseconds / (1000 * 60 * 60 * 24));
+
+    const months = Math.floor(totalDays / 30); // Approximation
+    const days = totalDays % 30; // Remaining days after months
+    const hours = totalHours % 24; // Remaining hours after days
+
+    const isWithinAWeek = totalDays <= 7;
+
+    return { months, days, hours, totalMilliseconds, isWithinAWeek };
 }
 
 function formatDate(date) {
@@ -86,9 +98,23 @@ function formatDate(date) {
 }
 
 function showNotification(birthday) {
-    upcomingMessage.textContent = `Upcoming birthday: ${birthday.name} in ${birthday.days} day${birthday.days > 1 ? 's' : ''}`;
-    upcomingNotification.style.display = 'block';
+    // Save the notification details to localStorage
+    localStorage.setItem('upcomingBirthday', JSON.stringify(birthday));
+    notificationbutton.style.background="red"
+    
+
+    // Display notification on the current page
+    // upcomingMessage.textContent = `Upcoming birthday: ${birthday.name} in ${birthday.days} day${birthday.days !== 1 ? 's' : ''} and ${birthday.hours} hour${birthday.hours !== 1 ? 's' : ''}`;
+    // upcomingNotification.style.display = 'block';
 }
+
+
+
+// function showNotification(birthday) {
+
+//     upcomingMessage.textContent = `Upcoming birthday: ${birthday.name} in ${birthday.days} day${birthday.days !== 1 ? 's' : ''} and ${birthday.hours} hour${birthday.hours !== 1 ? 's' : ''}`;
+//     upcomingNotification.style.display = 'block';
+// }
 
 function closeNotification() {
     upcomingNotification.style.display = 'none';
@@ -124,3 +150,5 @@ function cancelEdit() {
 }
 
 displayBirthdays();
+
+

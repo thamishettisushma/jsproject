@@ -1,0 +1,100 @@
+body {
+    font-family: Sour Gummy;
+    background-color: #f4f4f9;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    background-color: teal;
+    text-align: center;
+}
+.header { 
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color:#F0F0F0;
+    z-index: 10;
+    color:teal;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#upcomingNotification{
+    border: 2px solid white;
+    background-color: aliceblue;
+    box-shadow: 3px 3px #D4AF37;
+    padding: 4%;
+    height: 40vh;
+    margin-top:8%;
+    margin-left: 25%;
+    margin-right: 25%;
+   
+}
+
+#upcomingMessage,p{
+    color: black;
+    font-size: 2rem;
+    font-weight: bolder;
+    text-shadow:  0 2px 5px #D4AF37;
+   
+}
+
+button {
+    font-family: Sour Gummy;
+    font-size: 2rem;
+    width: max-content;
+    padding: 18px;
+    border: none;
+    border-radius: 40px;
+    background-color: teal;
+    color: antiquewhite;
+}
+
+button:hover {
+    background-color: #c79a04;
+}
+
+
+@media (max-width: 768px) {
+    #upcomingNotification {
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 20%;
+        padding: 5%;
+        height: auto;
+    }
+
+    #upcomingMessage, p {
+        font-size: 1.5rem;
+    }
+
+    button {
+        font-size: 1.5rem;
+        padding: 14px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    #upcomingNotification {
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 35%;
+        padding: 5%;
+        height: auto;
+    }
+
+    #upcomingMessage, p {
+        font-size: 1.2rem;
+    }
+
+    button {
+        font-size: 1.2rem;
+        padding: 12px;
+    }
+
+    .header {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
+
+
